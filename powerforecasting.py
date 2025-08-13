@@ -77,6 +77,17 @@ if demand_file and weather_file and calendar_file:
     X = state_df.drop(columns=['State', 'Datetime', 'Demand'])
     y = state_df['Demand']
     scaler = MinMaxScaler()
+    # 🧼 Drop non-numeric columns (if any slipped through)
+    X = X.select_dtypes(include=[np.number])
+
+    # 🧹 Drop rows with missing values
+    X = X.dropna()
+
+    # ✅ Check if X is not empty
+    if X.empty:
+        st.error("Feature matrix X is empty after cleaning. Check your data or feature generation.")
+        st.stop()
+
     X_scaled = scaler.fit_transform(X)
 
     split = int(len(X_scaled) * 0.8)
@@ -234,6 +245,7 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
 
 
