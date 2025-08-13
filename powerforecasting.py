@@ -26,7 +26,7 @@ calendar_file = st.file_uploader("Upload Calendar File", type=["xlsx"])
 
 # 🔧 Model Selection
 model_list = [
-    "ARMA", "ARIMA", "SARIMAX", "VAR", "VARMA",
+     "ARIMA", "SARIMAX", "VAR", "VARMA",
     "RandomForest", "XGBoost", "SVR",
     "RNN", "LSTM", "GRU", "TCN", "Transformer",
     "Prophet", "BSTS"
@@ -198,9 +198,10 @@ if demand_file and weather_file and calendar_file:
 
     # 📊 Metrics
     st.subheader("📊 Model Performance")
-    st.write(f"**RMSE**: {mean_squared_error(y_test, forecast, squared=False):.2f}")
+    st.write(f"**RMSE**: {rmse:.2f}")
     st.write(f"**MAE**: {mean_absolute_error(y_test, forecast):.2f}")
     st.write(f"**R² Score**: {r2_score(y_test, forecast):.2f}")
+
 
     # 🔮 Predict Next 245 Days (Hourly)
     st.subheader("📅 Predict Next 245 Days (Hourly)")
@@ -255,6 +256,7 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
 
 
