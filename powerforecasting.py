@@ -40,19 +40,9 @@ if demand_file and weather_file and calendar_file:
     calendar_df = pd.read_excel(calendar_file)
 
     # 🧩 Preprocess & Merge
-    # 🧼 Drop rows with missing Date or Hour
-    demand_df = demand_df.dropna(subset=['Date', 'Hour'])
-
-# 🕒 Convert 'Date' to datetime
-    demand_df['Date'] = pd.to_datetime(demand_df['Date'], errors='coerce')
-
-# 🕘 Ensure 'Hour' is numeric and zero-padded
-    demand_df['Hour'] = pd.to_numeric(demand_df['Hour'], errors='coerce').fillna(0).astype(int)
-
-# 🧮 Combine 'Date' and 'Hour' into full datetime
-    demand_df['Datetime'] = demand_df['Date'] + pd.to_timedelta(demand_df['Hour'], unit='h')
-
-
+    demand_df['date'] = pd.to_datetime(demand_df['date'])
+    demand_df['hour'] = pd.to_datetime(demand_df['time'], format='%H:%M:%S').dt.hour
+    demand_df['datetime'] = demand_df['date'] + pd.to_timedelta(demand_df['hour'], unit='h')
     weather_df['Datetime'] = pd.to_datetime(weather_df['Date'].astype(str) + ' ' + weather_df['Time'].astype(str))
     calendar_df['Date'] = pd.to_datetime(calendar_df['Date'])
 
@@ -242,4 +232,5 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
