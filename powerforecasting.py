@@ -227,7 +227,7 @@ if demand_file and weather_file and calendar_file:
         future_forecast_df = model.predict(future_prophet)
         future_forecast = future_forecast_df['yhat'].values
     elif selected_model in ["ARIMA", "SARIMAX", "VAR"]:
-        future_forecast = np.full(len(future_df), forecast[-1])  # Extend last value
+        future_forecast = np.full(len(future_df), forecast.iloc[-1])  # Extend last value
     elif selected_model in ["RNN", "LSTM", "GRU", "TCN", "Transformer"]:
         future_scaled = scaler.transform(future_df[X.columns])
         future_seq = []
@@ -257,6 +257,7 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
 
 
