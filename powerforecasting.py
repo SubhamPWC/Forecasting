@@ -81,7 +81,7 @@ if demand_file and weather_file and calendar_file:
     X = X.select_dtypes(include=[np.number])
 
     # 🧹 Drop rows with missing values
-    X = X.dropna()
+    #X = X.dropna()
 
     # ✅ Check if X is not empty
     if X.empty:
@@ -245,6 +245,7 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
 
 
