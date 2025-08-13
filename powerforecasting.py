@@ -68,9 +68,9 @@ if demand_file and weather_file and calendar_file:
                 df[f'{col}_Lag1'] = df[col].shift(1)
                 df[f'{col}_Diff'] = df[col].diff()
 
-    df = df.dropna(subset=['Demand'])  # Only drop if Demand is missing
-    df = df.fillna(method='ffill').fillna(method='bfill')  # Fill other missing values
-    return df
+        df = df.dropna(subset=['Demand'])  # Only drop if Demand is missing
+        df = df.fillna(method='ffill').fillna(method='bfill')  # Fill other missing values
+        return df
 
     feature_df = generate_features(merged_df)
 
@@ -255,6 +255,7 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
 
 
