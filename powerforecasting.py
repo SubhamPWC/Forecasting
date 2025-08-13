@@ -197,7 +197,15 @@ if demand_file and weather_file and calendar_file:
         st.stop()
 
     # 📊 Metrics
+    st.write("Length of y_test:", len(y_test))
+    st.write("Length of forecast:", len(forecast))
+    min_len = min(len(y_test), len(forecast))
+    y_test = y_test[:min_len]
+    forecast = forecast[:min_len]
     rmse = np.sqrt(mean_squared_error(y_test, forecast))
+    mae = mean_absolute_error(y_test, forecast)
+    r2 = r2_score(y_test, forecast)
+
     st.subheader("📊 Model Performance")
     st.write(f"**RMSE**: {rmse:.2f}")
     st.write(f"**MAE**: {mean_absolute_error(y_test, forecast):.2f}")
@@ -257,6 +265,7 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
 
 
