@@ -53,20 +53,20 @@ if demand_file and weather_file and calendar_file:
 
     # 🧠 Feature Engineering
     def generate_features(df):
-    df = df.sort_values('Datetime')
-    df['Hour'] = df['Datetime'].dt.hour
-    df['DayOfWeek'] = df['Datetime'].dt.dayofweek
-    df['Month'] = df['Datetime'].dt.month
-    df['Lag_1'] = df['Demand'].shift(1)
-    df['Lag_24'] = df['Demand'].shift(24)
-    df['RollingMean_3'] = df['Demand'].rolling(3).mean()
-    df['RollingStd_3'] = df['Demand'].rolling(3).std()
+        df = df.sort_values('Datetime')
+        df['Hour'] = df['Datetime'].dt.hour
+        df['DayOfWeek'] = df['Datetime'].dt.dayofweek
+        df['Month'] = df['Datetime'].dt.month
+        df['Lag_1'] = df['Demand'].shift(1)
+        df['Lag_24'] = df['Demand'].shift(24)
+        df['RollingMean_3'] = df['Demand'].rolling(3).mean()
+        df['RollingStd_3'] = df['Demand'].rolling(3).std()
 
-    for col in ['Temperature_2m', 'DNI', 'Relative_humidity_2m', 'Dew_point_2m',
-                'Apparent_temperature', 'Rain', 'Cloud_cover']:
-        if col in df.columns:
-            df[f'{col}_Lag1'] = df[col].shift(1)
-            df[f'{col}_Diff'] = df[col].diff()
+        for col in ['Temperature_2m', 'DNI', 'Relative_humidity_2m', 'Dew_point_2m',
+                    'Apparent_temperature', 'Rain', 'Cloud_cover']:
+            if col in df.columns:
+                df[f'{col}_Lag1'] = df[col].shift(1)
+                df[f'{col}_Diff'] = df[col].diff()
 
     df = df.dropna(subset=['Demand'])  # Only drop if Demand is missing
     df = df.fillna(method='ffill').fillna(method='bfill')  # Fill other missing values
@@ -255,6 +255,7 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
 
 
