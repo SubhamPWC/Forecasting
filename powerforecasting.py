@@ -47,6 +47,8 @@ if demand_file and weather_file and calendar_file:
     calendar_df['Date'] = pd.to_datetime(calendar_df['Date'], errors='coerce')
 
     merged_df = demand_df.merge(weather_df, on=['State', 'Datetime'], how='left')
+    merged_df['Date'] = merged_df['Datetime'].dt.date  # Extract date part from datetime
+    merged_df['Date'] = pd.to_datetime(merged_df['Date'])  # Convert to datetime64
     merged_df = merged_df.merge(calendar_df, on=['State', 'Date'], how='left')
 
     # 🧠 Feature Engineering
@@ -232,6 +234,7 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
 
 
