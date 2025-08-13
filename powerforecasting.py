@@ -73,15 +73,31 @@ if demand_file and weather_file and calendar_file:
     state = st.selectbox("Select State", feature_df['State'].unique())
     state_df = feature_df[feature_df['State'] == state]
 
-    # 📈 Forecasting
-    X = state_df.drop(columns=['State', 'Datetime', 'Demand'])
+    # 📈 Forecasting Setup
+    exclude_cols = ['State', 'Datetime', 'Demand']
+    X = state_df.drop(columns=exclude_cols, errors='ignore')
     y = state_df['Demand']
+
+    # ✅ Keep only numeric columns
+    X = X.select_dtypes(include=[np.number])
+
+    # 🧼 Handle missing values
+    X = X.fillna(X.mean())
+
+    # ❗ Check if X is empty
+    if X.empty or len(X) == 0:
+        st.error("❌ Feature matrix X is empty after cleaning. Please check your data or feature generation.")
+        st.stop()
+
+    # ✅ Scale features
     scaler = MinMaxScaler()
     X_scaled = scaler.fit_transform(X)
 
+    # 🔀 Train-test split
     split = int(len(X_scaled) * 0.8)
     X_train, X_test = X_scaled[:split], X_scaled[split:]
     y_train, y_test = y[:split], y[split:]
+
 
     # 🔮 Model Training
     if selected_model == "RandomForest":
@@ -234,6 +250,7 @@ if demand_file and weather_file and calendar_file:
         mime="text/csv"
 
     )
+
 
 
 
